@@ -1,0 +1,75 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install Dependencies",
+            "type": "shell",
+            "command": "${workspaceFolder}/venv/bin/pip install -r requirements.txt",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run MCP Server",
+            "type": "shell",
+            "command": "${workspaceFolder}/venv/bin/python server.py",
+            "options": {
+                "env": {
+                    "MCP_HOST": "0.0.0.0",
+                    "MCP_PORT": "8000"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build Docker Image",
+            "type": "shell",
+            "command": "docker build -t hr-database-mcp:latest .",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run Docker Container",
+            "type": "shell",
+            "command": "docker run --rm -p 8000:8000 -v \"${workspaceFolder}/employees.db:/app/employees.db\" --name hr-database-mcp hr-database-mcp:latest",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Test Container URL",
+            "type": "shell",
+            "command": "curl -i http://127.0.0.1:8000",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Test MCP URL from mcp.json",
+            "type": "shell",
+            "command": "python3 - <<'PY'\nimport json, urllib.request\nwith open('mcp.json') as f:\n    config = json.load(f)\nurl = config['mcpServers']['hr-database']['url']\nprint('Testing', url)\nresp = urllib.request.urlopen(url, timeout=5)\nprint('status', resp.status)\nprint(resp.read(200).decode('utf-8', errors='ignore'))\nPY",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

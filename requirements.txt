@@ -1,0 +1,4 @@
+fastmcp>=0.1.0
+sqlalchemy>=2.0.0
+sqlite-utils>=3.30.0
+pandas>=2.0.0

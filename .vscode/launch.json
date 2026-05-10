@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch HR MCP Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/server.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "MCP_HOST": "0.0.0.0",
+                "MCP_PORT": "8000"
+            },
+            "preLaunchTask": "Install Dependencies",
+            "justMyCode": true
+        }
+    ]
+}
