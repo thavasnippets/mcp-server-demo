@@ -12,8 +12,12 @@ from tools.query import register_query_tools
 HOST = os.getenv("MCP_HOST", "0.0.0.0")
 PORT = int(os.getenv("MCP_PORT", "8000"))
 
-# Initialize FastMCP server (NO host/port here unless your version supports it)
-mcp = FastMCP("HR Database Assistant")
+# Initialize FastMCP server with configured host/port for HTTP transport
+mcp = FastMCP(
+    "HR Database Assistant",
+    host=HOST,
+    port=PORT,
+)
 
 # Register tools
 register_employee_tools(mcp)
@@ -23,6 +27,8 @@ register_education_tools(mcp)
 register_query_tools(mcp)
 
 if __name__ == "__main__":
-    print(f"Starting MCP server on http://localhost:{PORT}/sse")
+    print(
+        f"Starting MCP server on http://{HOST}:{PORT}{mcp.settings.streamable_http_path}"
+    )
 
     mcp.run(transport="streamable-http")

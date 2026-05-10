@@ -22,8 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy entire project
 COPY . .
 
-# Expose port for stdio communication (MCP servers use stdio by default)
-# If you need HTTP, you can modify the server.py to use a port
+EXPOSE 8000
 
 # Run the server
 CMD ["python", "server.py"]
